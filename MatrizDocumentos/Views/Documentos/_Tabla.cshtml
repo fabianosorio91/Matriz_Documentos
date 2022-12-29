@@ -1,0 +1,78 @@
+﻿@using Dominio;
+
+@model IndexViewModel 
+
+@{    
+    Layout = "~/Views/Shared/_LayoutTabla.cshtml";
+}
+
+<div class=" tabla ">
+    <table class="table table-bordered " id="table_documents">
+    <thead class="table-light">
+        <tr>
+            <th class="codigo">
+                <h5>Código</h5>
+            </th>
+            <th class="nombre">
+                <h5>Nombre</h5>
+            </th>
+            <th class="area">
+                <h5>Área</h5> 
+            </th>
+            <th class="gestion">
+                <h5>Gestión</h5>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+@foreach (var item in Model.DocumentoList) {
+        <tr>
+            <td>
+                @item.DocCodigo
+            </td>
+            <td>
+                @item.DocNombre
+            </td>
+            <td>
+                @item.DocArea
+            </td>
+
+            <td class="gestion">
+                @if (item.DocRuta.Contains("http"))
+                        {
+                            <form method="post" enctype="multipart/form-data" asp-action="Redireccionar" target=_blank >
+                                <input type="hidden" name="url" value="@item.DocRuta"/>
+                                <button class="btn btn-sm ver" type="submit" title="Ver">
+                                   Ver <i class="bi bi-binoculars"></i> 
+                                </button>
+                            </form>
+                        } else
+                        {
+                            <form method="post" enctype="multipart/form-data" asp-action="Redireccionar">
+                                <input type="hidden" name="url" value="@item.DocRuta"/>
+                                <button class="btn btn-sm ver" type="submit" title="Ver">
+                                   Ver <i class="bi bi-binoculars"></i> 
+                                </button>
+                            </form>
+                        }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+
+  @section scripts{
+      <script>
+          $(document).ready( function () {
+             $('#table_documents').DataTable({
+                  "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                               },
+               });
+        } );
+
+
+      </script>
+  }

@@ -1,0 +1,406 @@
+html {
+    font-size: 12.5px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 14.5px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    background-image: url('../img/Fondo2.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.buscar, .dataTables_filter input {
+    height: auto;
+    border-radius: 4px;
+    margin-right: 15px;
+    border: 2px solid #06112d;
+    margin-left: 3px;
+}
+
+.dataTables_filter {
+    display: flex;
+    justify-content: flex-start;
+}
+
+    .dataTables_filter input {
+        margin-bottom: 4px !important;
+    }
+
+.buscar {
+    position: absolute;
+    margin-left: -152px;
+    margin-top: 41px;
+}
+
+#table_documents_filter {
+    margin-left: 35px;
+}
+
+    #table_documents_filter input {
+        margin-left: 5px;
+        width: 200px;
+    }
+
+.dataTables_length label, .dataTables_filter label {
+    display: flex;
+    align-items: baseline;
+}
+
+.dataTables_length select {
+    width: 67px;
+    border: 1px solid;
+    margin: 0 4px;
+}
+
+
+.gestion {
+    width: 250px;
+    text-align: center;
+}
+
+.area {
+    width: 250px;
+}
+
+.nombre {
+    width: 350px;
+}
+
+.codigo {
+    width: 250px;
+}
+
+.contenedor {
+    padding: 6px 15px;
+}
+
+.pagination {
+    margin-top: 10px;
+    margin-bottom: 80px;
+}
+
+.logo {
+    max-height: 80px;
+    margin-left: 80px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.navegacion {
+    padding: 0px;
+    background-image: url('../img/Cenefa Superior2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: auto;
+}
+
+.foot {
+    height: 70px;
+    background-image: url('../img/Cenefa Inferior.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.ver {
+    background-color: rgba(255,119,0,255);
+    border: hidden;
+    color: #fff;
+}
+
+.blue {
+    background-color: #06112d !important;
+    border-color: #06112d !important;
+}
+
+th {
+    background-color: #06112d !important;
+    color: #fff;
+}
+
+    th h5 {
+        margin: 0px;
+    }
+
+.table {
+    margin: 0px !important;
+}
+
+.page-link {
+    border: 1px solid #06112d;
+    color: #06112d;
+}
+
+    .page-link:hover {
+        background-color: #06112d;
+        color: #fff;
+    }
+
+.page-item.active .page-link {
+    background-color: #06112d;
+    border-color: #06112d;
+}
+
+#table_documents_ellipsis a {
+    border: 1px solid #06112d;
+}
+
+.table > :not(caption) > * > * {
+    padding: 0.35rem 0.5rem;
+}
+
+.form-select {
+    padding: 0.1875rem 2.25rem 0.1875rem 0.75rem;
+    border: 1px solid #fff;
+}
+
+
+
+@media (max-width: 1100px) {
+    .navegacion {
+        padding: 0;
+        background-image: none;
+        background-color: rgba(255,119,0,255);
+        height: 80px;
+        box-shadow: 0 0 10px 0;
+    }
+}
+
+@media (min-width: 1450px) {
+    .navegacion {
+        padding: 0;
+        background-image: none;
+        background-color: rgba(255,119,0,255);
+        height: 80px;
+        box-shadow: 0 0 10px 0;
+    }
+}
+
+@media (max-width: 770px) {
+    .navegacion {
+        padding: 0;
+        background-image: none;
+        background-color: rgba(255,119,0,255);
+        height: 60px;
+        box-shadow: 0 0 10px 0;
+    }
+
+    .logo {
+        max-height: 60px;
+        margin-left: 80px;
+    }
+}
+
+@media (max-width: 1000px) and (min-width:770px) {
+    #table_documents_filter {
+        margin-left: 0;
+    }
+
+        #table_documents_filter input {
+            margin-left: 0;
+            width: 120px;
+        }
+}
+
+
+
+/*Orden de compra*/
+
+/* Style inputs, select elements and textareas */
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 5px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+/* Style the submit button */
+input[type=submit] {
+    width: 100px;
+    background-color: cornflowerblue;
+    color: white;
+    padding: 10px 5px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+}
+
+
+/* Style the container */
+.container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+    .col-25, .col-75, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+
+/*Banner del titulo*/
+.containerEncabezadoSubTitulo {
+    width: 100%;
+    height: 25px;
+    text-align: center;
+    background-color: cornflowerblue;
+    border: 1px solid #244F05;
+    padding-top: 1px;
+    font-size: 12px;
+}
+
+
+.accordion {
+    background-color: #06112D;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+    /*Color del banner*/
+    .active, .accordion:hover {
+        background-color: #06112D;
+    }
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+
+#tabla {
+    margin: auto;
+    border-collapse: collapse;
+    width: 100%;
+    /*background-color: cornflowerblue !important;*/
+    border: 1.5px solid #06112d !important;
+}
+
+    #tabla td {
+        border: 1px solid #705D3B;
+        height: 1px;
+        color: black; /*Color letras de la tabla*/
+    }
+
+input {
+    width: 100%;
+    height: 100%;
+}
+
+#tabla img {
+    cursor: pointer
+}
+
+/*Color Titulo de la tabla*/
+
+/*.cabeza, .orden {*/
+.cabeza {
+    /* background: rgba(255,119,0,255);*/
+    background: #06112D;
+}
+
+.descripcion {
+    width: 20%;
+    height: 1%;
+}
+
+.tam {
+    width: 10%;
+    height: 1%;
+    color: #fff; /*Color letras de la tabla*/
+    color: #FF0000;
+}
+
+.orden {
+    width: 2%;
+    height: 1%;
+}
+/*.orden1 {
+    width: 2%;
+    height: 1%;
+}*/
+
+
+/*Estilo validaciones formulario*/
+
+/*style rules for form icons*/
+
+form div i {
+    position: absolute;
+    padding: 10px;
+}
+
+.success-icon,
+.failure-icon {
+    right: 0;
+    opacity: 0;
+}
+
+.failure-icon,
+.error {
+    color: red;
+}
+
+.success-icon {
+    color: green;
+}
+
+.error {
+    font-size: 14.5px;
+    margin-top: 5px;
+}

@@ -1,0 +1,247 @@
+﻿@using Dominio;
+@using Newtonsoft.Json;
+@using Syncfusion.XlsIO;
+@model IndexViewModel //de donde estoy esperando
+@{
+    ViewData["Title"] = "ListaUsuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";    
+   
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+
+<body onload="iniciarTabla()">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
+          crossorigin="anonymous" />
+
+    <h3><strong><div align="center"> ORDEN DE COMPRA</div></strong></h3>
+    <br>
+
+    <div class="content">
+        <form id="form">
+            <div class="accordion">DATOS GENERALES</div>
+            <div class="panel">
+                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content 
+                    ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" 
+                    role="tabpanel" aria-hidden="false" style="">
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="username">Fecha Solicitud</label>
+                                <input class="form-control" type="date" id="fechasolicitud" name="fechasolicitud">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Solicitante">Solicitante</label>
+                                <input type="text" id="Solicitante" name="Solicitante">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="codigodelproyecto">Código del proyecto</label>
+                                <input onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
+                                    type="text" id="codigodelproyecto" name="codigodelproyecto">
+                                <div class="error"></div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Codigo Presupuesto</label>
+                                <input class="form-control" type="text" id="codigopresupuestos" 
+                                name="codigopresupuestos">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  <br>  <br>
+            </div>
+
+            <br>
+
+            <!--Vista parcial-->
+            <div id="parcialDatosProv">  <partial name="_datosProveedor" />    </div>
+
+            <br>
+
+            <div class="accordion">CARACTERISTICAS COMERCIALES</div>
+            <div class="panel">
+                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="">
+
+                    <table id="tabla" style="text-align:center;">
+                        <tr class="cabeza">
+                            <td class="orden">&nbsp;</td>
+                            <td class="tam"><h7 style="color: white ;">Descripcion</h7></td>
+                            <td class="tam"><h7 style="color: white ;">Cantidad</h7></td>
+                            <td class="tam"><h7 style="color: white ;">Valor unitario (Antes de IVA)</h7></td>
+                            <td class="tam"><h7 style="color: white ;">Total(Antes de IVA)</h7></td>
+                        </tr>
+                        <tr>
+                            <td class="orden1">&nbsp;<img src="img/anadir.gif" alt="añadir fila" />&nbsp;<img src="img/menos.gif" alt="borrar fila" /></td>
+                            <td></td>
+                            <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"></td>
+                            <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="orden1">&nbsp;</td>
+                            <td class="orden1">TOTAL:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Garantía</label>
+                                <textarea class="form-control" type="text" id="garantia" name="garantia" cols="50" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Acuerdos de pago</label>
+                                <textarea class="form-control" type="text" id="acuerdosdepago" name="acuerdosdepago" cols="50" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Acuerdos de incumplimiento</label>
+                                <textarea class="form-control" type="text" id="incumplimiento" name="incumplimiento" cols="40" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="OrdRazonSocial">Acuerdos de entregas</label>
+                                <textarea class="form-control" type="text" id="entregas" name="entregas" cols="40" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label">Acuerdos de Seguimiento</label>
+                                <textarea class="form-control" type="text" id="seguimiento" name="seguimiento" cols="40" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label" for="OrdRazonSocial">Soporte postventa</label>
+                                <textarea class="form-control" type="text" id="soporteposventa" name="soporteposventa" cols="40" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="control-label" for="OrdRazonSocial">Otros</label>
+                                <textarea class="form-control" type="text" id="otros" name="otros" cols="40" rows="5"></textarea>
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <br>
+            </div>
+
+            <br>
+
+
+            <div class="row">
+                <input name="submit" type="submit" id="btnExportToExcel" value="Guardar" onclick="enviar()" />
+                <input name="submit" hidden type="button" id="ExportToExcel" value="Create" onclick="location.href='@Url.Action("ObtenerOrden", "Ordenes")'" />
+            </div>
+        </form>
+
+    </div>
+    <br>
+    <br>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+
+    <script>
+        const myButtons = document.getElementById('btnExportToExcel');
+        const myButton = document.getElementById('ExportToExcel');
+
+        myButton.addEventListener('click', function () {
+            myButtons.disabled = true;
+            myButtons.style.opacity = 0.7;
+            myButtons.textContent = 'Ejecutando proceso...';
+
+            //simulación de espera para ejecución de un proceso
+            setTimeout(function () {
+                myButtons.textContent = 'Pulsar';
+                myButtons.style.opacity = 1;
+                myButtons.disabled = false;
+            }, 5000);
+        });
+    </script>
+
+
+</body>
+</html>
+
+
+<script src="~/js/formularioManual.js"></script>
+<link href="~/css/sweetalert2.css" rel="stylesheet" />
+<script src="~/js/sweetalert2.js"></script>

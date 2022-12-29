@@ -1,0 +1,31 @@
+﻿@using Dominio
+@model IndexViewModel
+@{
+    ViewData["Title"] = "ListaUsuario";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!--Inicio Table-->
+<div class="d-flex justify-content-between contenedor">
+    <h3><strong>MATRIZ DE DOCUMENTOS</strong></h3>
+    <div class="formulario">
+        <form asp-action="Index" enctype="multipart/form-data" method="post" class="d-flex flex-row" id="listaUsusarios_id">
+            <div class="buscar">
+                <select asp-items="Model.Documento.Areas" class="form-select" asp-for="Area" onchange="area()" id="areas_id">
+                    <option value="">Todas las áreas</option>    
+                </select>
+            </div>
+        </form>
+    </div>
+  </div>
+
+  <!--componentes-->
+<partial name="_Tabla" model="Model"></partial>
+
+@section scripts{
+    <script>
+        function area() {
+
+            $('#listaUsusarios_id').submit();
+        }
+    </script>
+}
