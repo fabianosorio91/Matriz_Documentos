@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dominio.Interfaces
+namespace Dominio.Interfaces.Repositorios
 {
-    public interface IEliminar
+    public interface IRepositorioProductos<TEntidad>: IBuscarProductosDeOrden<TEntidad>
     {
-        Task<bool> Eliminar(int identificadorElemento);
     }
 }

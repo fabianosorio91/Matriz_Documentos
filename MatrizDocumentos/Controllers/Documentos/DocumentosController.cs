@@ -15,6 +15,7 @@ namespace MatrizDocumentos.Controllers.Documentos
         {
             this.configuration = configuration;
         }
+        
         AreaServicio ServicioArea()
         {
             AreaRepositorio repo = new(configuration);
@@ -27,6 +28,15 @@ namespace MatrizDocumentos.Controllers.Documentos
             DocumentoServicio servicioDocumento = new DocumentoServicio(repo);
             return servicioDocumento;
         }
+
+
+        ParametrosServicio ServicioParametro()
+        {
+            ParametrosRepositorio repo = new(configuration);
+            ParametrosServicio servicio = new(repo);
+            return servicio;
+        }
+
         public async Task<IActionResult> Index(IndexViewModel indexViewModel)
         {
 
@@ -90,6 +100,75 @@ namespace MatrizDocumentos.Controllers.Documentos
         }
 
 
+        [HttpGet] //Se manda a la vista documento detalle la cual dependiendo de la validacion del id del documento recibido crea un nuevo campo
+        //o se ejecuta El IBuscarDocumento
+        public async Task<IActionResult> Documento_Detalle(int DocId)
+        {
+            //Lista desplegable para areas
 
+            var Areas = await ServicioArea().Listar();
+            List<SelectListItem> lstAreas = new();
+
+            foreach (var area in Areas)
+            {
+                lstAreas.Add(new SelectListItem { Value = area.AreId.ToString(), Text = area.AreNombre });
+
+            }
+
+            // Lista desplegable para Extenciones
+
+            var Extenciones= await ServicioParametro().BuscarParametro("Extension");
+            List<SelectListItem> listaParametros = new();
+
+            foreach (var parametro in Extenciones)
+            {
+                listaParametros.Add(new SelectListItem { Value = parametro.VALORPARAMETRO, Text = parametro.VALORPARAMETRO });
+            }
+            // fin feature
+            IndexViewModel objetoDocumento = new IndexViewModel()
+            {
+                Documento = new Documento() { Areas = lstAreas, ListaExtenciones = listaParametros }
+
+            };
+
+            if (DocId != 0)
+            {
+               
+
+              objetoDocumento.Documento =  await ServicioDocumento().DocumentoAActualizar(DocId);
+              objetoDocumento.Documento.Areas= lstAreas;
+              objetoDocumento.Documento.ListaExtenciones= listaParametros;
+            }
+
+
+          
+            return View(objetoDocumento);
+        }
+
+        [HttpPost]// Si en el http get se recibe un id=0 entonces se habilita dentro de la  vista la opcion de crear
+        public async Task<IActionResult> Documento_Detalle(IndexViewModel objetoDocumento)
+        {
+            if (objetoDocumento.Documento.DocId == 0)
+            {
+             await ServicioDocumento().Guardar(objetoDocumento.Documento);
+            }
+            else
+            {
+                await ServicioDocumento().Actualizar(objetoDocumento.Documento);
+            }
+
+            return RedirectToAction("Index", "Documentos");
+        }
+
+
+
+        [HttpGet]
+        // recibe el Id del documento para posteriormente eliminarlo 
+        public async Task<IActionResult> Eliminar(int DocId)
+        {
+            await ServicioDocumento().Eliminar(DocId);
+
+            return RedirectToAction("Index", "Documentos");
+        }
     }
 }

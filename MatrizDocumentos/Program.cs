@@ -1,17 +1,9 @@
-using Microsoft.AspNetCore.Authentication.Cookies; //Autenticacion ..................
-using Microsoft.Extensions.DependencyInjection;
+using System.Security.Policy;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-/*Autenticacion .....................
-builder.Services.AddControllersWithViews(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(option => 
-    {
-        option.LoginPath = "/Login/Usuarios";
-
-    }); //autenticacion*/
 
 var app = builder.Build();
 
@@ -23,17 +15,16 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
-//autenticacion..................
-app.UseAuthentication();
 
 app.UseAuthorization();
 
+//app.MapControllerRoute(
+//    name: "default",
+//pattern: "{controller=Documentos}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
-    name: "default",
-
-
-//pattern: "{controller=Usuarios}/{action=Login}/{id?}"); //Inicio login
-pattern: "{controller=Documentos}/{action=Index}/{id?}"); //Inicio documentos
+    name: "temp",
+pattern: "{controller=Ordenes}/{action=Index}/{id?}");
 
 app.Run();
 

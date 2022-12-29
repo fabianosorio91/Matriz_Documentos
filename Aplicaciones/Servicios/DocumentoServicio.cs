@@ -1,6 +1,7 @@
 ﻿using Aplicaciones.Interfaces;
 using Dominio;
 using Dominio.Interfaces.Repositorios;
+using System.Web.Mvc;
 
 namespace Aplicacion.Servicios
 {
@@ -23,5 +24,28 @@ namespace Aplicacion.Servicios
             return await repoDocumento.Listar();
         }
 
+       public async Task<bool> Guardar(Documento documentoObjeto)
+        {
+            return await repoDocumento.Guardar(documentoObjeto);
+        }
+
+        public async Task<bool> Actualizar(Documento documentoObjeto)
+        {
+            return await repoDocumento.Actualizar(documentoObjeto);
+        }
+
+        public async Task<bool> Eliminar(int documentoId)
+        {
+            return await repoDocumento.Eliminar(documentoId);
+        }
+
+        
+
+        public async Task<Documento> DocumentoAActualizar(int DocId)
+        {
+            return await repoDocumento.DocumentoAActualizar(DocId);
+        }
+
+      
     }
 }

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Interfaces
 {
-    public interface ICreate<TEntidad>
+    public interface IBuscarOrdenCompra<TEntidad>
     {
-        Task<TEntidad> CreateAsync(Proveedor proveedor);
+        Task<TEntidad> BuscarOrdenCompra(long idOrden);
     }
 }

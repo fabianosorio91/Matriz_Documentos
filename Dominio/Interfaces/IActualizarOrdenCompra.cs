@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Dominio.Interfaces
 {
-    public interface IEliminar
+    public interface IActualizarOrdenCompra<TEntidad>
     {
-        Task<bool> Eliminar(int identificadorElemento);
+        Task<List<TEntidad>> ActualizarOrdenCompra(OrdenCompra data);
+
     }
 }

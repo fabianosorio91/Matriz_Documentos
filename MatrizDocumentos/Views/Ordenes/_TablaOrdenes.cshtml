@@ -1,0 +1,86 @@
+﻿@using Dominio;
+
+@model IndexViewModel
+@{
+    ViewData["Title"] = "_TablaOrdenes";
+    Layout = "~/Views/Shared/_LayoutTabla.cshtml";
+}
+
+<div class=" tabla ">
+    <a class="btn btn-sm ver" asp-action="Index" asp-controller="Ordenes" >Nuevo</a>
+    <table class="table table-bordered " id="table_documents">
+        <thead class="table-light">
+            <tr>
+                <th class="codigo">
+                    <h5>Número de la orden</h5>
+                </th>
+               
+                <th class="area">
+                    <h5>Solicitante</h5>
+                </th>
+                <th class="gestion">
+                    <h5>Código del proyecto</h5>
+                </th>
+                <th class="gestion">
+                    Código Presupuestos
+                </th>
+                <th class="nombre">
+                    <h5>Fecha solicitud</h5>
+                </th>
+                <th class="gestion">
+                    Moneda
+                </th>
+                <th class="gestion">
+                    Acciones
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.OrdenCompraList)
+            {
+                <tr>
+                    <td>
+                      @item.numerodelaorden
+                    </td>
+              
+                    <td>
+                        @item.Solicitante
+                    </td>
+                   
+                    <td>
+                        @item.codigodelproyecto
+                    </td>
+
+                    <td>
+                        @item.codigopresupuestos
+                    </td>
+                    <td>
+                        @item.fechasolicitud
+                    </td>
+                    <td>
+                        @item.Moneda
+                    </td>
+                    <td class="gestion">
+                        <a class="btn btn-sm ver " asp-action="Index" asp-controller="Ordenes" asp-route-id_ordencompra="@item.id_ordencompra">Editar</a>
+                        <a class="btn btn-sm ver " asp-action="Eliminar" asp-controller="Ordenes" asp-route-id_ordencompra="@item.id_ordencompra">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#table_documents').DataTable({
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+                },
+            });
+        });
+
+
+    </script>
+  }

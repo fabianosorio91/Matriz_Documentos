@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Interfaces
 {
-    public interface IEliminar
+    public interface IGuardar<TEntidad>
     {
-        Task<bool> Eliminar(int identificadorElemento);
+        Task<bool> Guardar(TEntidad ObjetoGuardar);
     }
 }

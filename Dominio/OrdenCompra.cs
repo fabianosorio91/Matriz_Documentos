@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Dominio
 {
@@ -45,9 +47,15 @@ namespace Dominio
         public long total { get; set; }
 
 
+        
         public List<Productos> tabla { get; set; }
 
         public List<string> ordenes { get; set; }
+
+        public List<SelectListItem> ListaMoneda { get; set; }
+
+
+        public string Moneda { get; set; }
 
     }
 }

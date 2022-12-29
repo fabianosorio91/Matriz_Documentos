@@ -17,7 +17,11 @@ function iniciarTabla() {
             cel.onclick = function () { crearInput(this) }
         } 
     } 
+    sumar();
+    //
+   
 
+    
     // añadir funcion onclick a las imágenes para borrar y añadir y ocultar las imágenes de borrar
     for (i = 0; im = document.images[i]; i++)
         if (im.alt == 'añadir fila')
@@ -32,6 +36,8 @@ function iniciarTabla() {
             im.onclick = function () { borrar(this, 1) }
             im.style.visibility = 'hidden';
         }
+
+
 } 
 
 // crear input para editar datos
@@ -104,10 +110,12 @@ function anadir(obj, num) {
     if (num == 0) { // añadir filas
         fila = obj.parentNode.parentNode;
         nuevaFila = fila.cloneNode(true);
+        
         im = nuevaFila.getElementsByTagName('img');
         im[0].onclick = function () { anadir(this, 0) }
         im[1].onclick = function () { borrar(this, 0) }
         for (i = 1, tot = nuevaFila.getElementsByTagName('td').length - 1; i < tot; i++) {
+            nuevaFila.getElementsByTagName('td')[i].innerHTML = '';
             nuevaFila.getElementsByTagName('td')[i].onclick = function () { crearInput(this) };
             nuevaFila.getElementsByTagName('td')[i].innerHTML;
         }
@@ -149,11 +157,18 @@ function insertAfter(newElement, targetElement) {
 
 // borrar filas o columnas 
 function borrar(obj, num) {
-    if (num == 0) { 
+
+    contador_temporal = 0;
+    $('#tabla tr').each(function (row, tr) {
+        contador_temporal++;
+    });
+
+    if (num == 0 || contador_temporal > 3) { 
         tab = obj.parentNode.parentNode.parentNode;
         tab.removeChild(obj.parentNode.parentNode);
     } 
     else { 
+      
         tab = document.getElementById(miTabla);
         cabecera = tab.getElementsByTagName('tr')[0];
         for (num = 0; cel = cabecera.getElementsByTagName('td')[num]; num++)
@@ -223,6 +238,9 @@ function enviar(datos) {
     var data = new Object();
     var resul = false;
 
+    var valorM = document.getElementById("Moneda");
+    var valorM = valorM.options[valorM.selectedIndex].value;
+
     let id = (id) => document.getElementById(id);
     let classes = (classes) => document.getElementsByClassName(classes);
 
@@ -245,7 +263,8 @@ function enviar(datos) {
         soporteposventa = id("soporteposventa"),
         otros = id("otros"),
         form = id("form"),
-        errorMsg = classes("error");
+        errorMsg = classes("error")
+       
     form.addEventListener("submit", (e) => {
         e.preventDefault();
 
@@ -264,7 +283,7 @@ function enviar(datos) {
         engine(seguimiento, 12, "Seguimiento no puede estar vacío");
         engine(soporteposventa, 13, "Soporte posventa no puede estar vacío");
         engine(otros, 14, "Otros no puede estar vacío");
-
+        DesabilitarBoton();
     });
 
     let engine = (id, serial, message) => {
@@ -281,7 +300,8 @@ function enviar(datos) {
     data.fechasolicitud = $("#fechasolicitud").val();
     data.Solicitante = $("#Solicitante").val();
     data.codigodelproyecto = $("#codigodelproyecto").val();
-
+    data.id_ordencompra = $("#idOrdendecompra").val();
+    data.Moneda = valorM;
     if (isNaN(data.codigodelproyecto)) {
 
         codigodelproyecto.value = '';
@@ -323,17 +343,67 @@ function enviar(datos) {
         resul = true;
     }
     else {
-
+        
         $.ajax({
             url: 'Ordenes/ObtenerOrden',
             data: { data: data },
             type: 'GET',
             type: 'POST',
             success: function (e) {
+                
                 $("#ExportToExcel").click();
                 setTimeout(() => { window.location.reload(); }, 2000);
             }
         });
+        
     }
+   
 }
+
+//Desabilitar boton desapues de enviar la solicitud
+
+function DesabilitarBoton() {
+
+    
+    let botonEnviar = document.querySelector("#btnExportToExcel");
+    let botonExport = document.querySelector("#ExportToExcel");
+
+    botonEnviar.disabled = true;
+    botonExport.disabled = true;
+    botonEnviar.classList.add('boton-orden-compra');
+
+     setTimeout(function () {
+         botonEnviar.disabled = false;
+         botonExport.disabled = false;
+    }, 3000);
+}
+
+function TemporalCrearCampo() {
+    tab = document.getElementById(miTabla);
+    filas = tab.getElementsByTagName('tr');
+    for (i = 1; fil = filas[i]; i++) {
+        celdas = fil.getElementsByTagName('td');
+        for (j = 1; cel = celdas[j]; j++) {
+            if ((i > 0 && j == celdas.length - 1) || (i == filas.length - 1 && j != 0)) continue;
+            cel.onclick = function () { crearInput(this) }
+        }
+    }
+    for (i = 0; im = document.images[i]; i++)
+        if (im.alt == 'añadir fila')
+            im.onclick = function () { anadir(this, 0) }
+        else if (im.alt == 'añadir columna')
+            im.onclick = function () { anadir(this, 1) }
+        else if (im.alt == 'borrar fila') {
+            im.onclick = function () { borrar(this, 1) }
+            im.style.visibility = 'hidden';
+        }
+        else if (im.alt == 'borrar columna') {
+            im.onclick = function () { borrar(this, 1) }
+            im.style.visibility = 'hidden';
+        }
+}
+
+
+
+
 
