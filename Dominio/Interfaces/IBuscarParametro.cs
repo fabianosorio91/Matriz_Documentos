@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dominio.Interfaces
 {
-    public interface IEliminar
+    public interface IBuscarParametro<TEntidad>
     {
-        Task<bool> Eliminar(int identificadorElemento);
+        Task<List<TEntidad>> BuscarParametro(string tipoP);
     }
 }

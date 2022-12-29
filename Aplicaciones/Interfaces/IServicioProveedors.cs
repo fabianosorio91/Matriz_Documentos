@@ -1,15 +1,9 @@
-﻿using Dominio;
-using Dominio.Interfaces;
+﻿using Dominio.Interfaces;
 
 namespace Aplicaciones.Interfaces
 {
-    internal interface IServicioProveedors<TEntidad>: 
-        IListarProveedor<TEntidad>, 
-        ICreate<TEntidad>,
-        IEliminar
+    internal interface IServicioProveedors<TEntidad>: IListarProveedor<TEntidad>, IBuscarProveedorIDProveedor<TEntidad>
     {
-        Task<Proveedor> BuscarProveedor(int id);
-        Task<bool> EditarProveedor(Proveedor proveedor);
     }
 
 }

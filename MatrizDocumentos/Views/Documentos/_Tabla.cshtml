@@ -2,11 +2,14 @@
 
 @model IndexViewModel 
 
-@{    
+@{
+    
     Layout = "~/Views/Shared/_LayoutTabla.cshtml";
+
 }
 
 <div class=" tabla ">
+    <a class="btn btn-sm ver" asp-action="Documento_Detalle" asp-controller="Documentos" asp-route-DocId="0">Nuevo</a>
     <table class="table table-bordered " id="table_documents">
     <thead class="table-light">
         <tr>
@@ -21,6 +24,9 @@
             </th>
             <th class="gestion">
                 <h5>Gestión</h5>
+            </th>
+            <th class="gestion">
+                Acciones
             </th>
         </tr>
     </thead>
@@ -56,6 +62,11 @@
                                 </button>
                             </form>
                         }
+                      
+            </td>
+            <td class="gestion">
+                        <a class="btn btn-sm ver " asp-action="Documento_Detalle" asp-controller="Documentos" asp-route-DocId="@item.DocId">Editar</a>
+                        <a class="btn btn-sm ver " asp-action="Eliminar" asp-controller="Documentos" asp-route-DocId="@item.DocId">Eliminar</a>
             </td>
         </tr>
 }

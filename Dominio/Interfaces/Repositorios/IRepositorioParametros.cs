@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio.Interfaces.Repositorios
 {
-    public interface IRepositorioUsuario<TEntidad>
+    public interface IRepositorioParametros<TEntidad> : IBuscarParametro<TEntidad>
     {
-        Task<TEntidad> Autenticar(Usuario usuario);
-
     }
 }

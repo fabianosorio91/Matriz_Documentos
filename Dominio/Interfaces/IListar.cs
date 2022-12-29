@@ -3,6 +3,7 @@
     public interface IListar<TEntidad>
     {
         Task<List<TEntidad>> Listar();
+         
 
     }
 }

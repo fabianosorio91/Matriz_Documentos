@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - MatrizDocumentos</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/siteOrden.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MatrizDocumentos.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,19 +17,9 @@
 <body>
     <header>
         <nav class="mb-1">
-            <div >
-                <div class="navegacion d-flex">
-                    <a asp-area="" asp-controller="Documentos" asp-action="Index"><img src="/img/Logo Nexos.png" class="logo"></a>
-
-                    <div style="padding-left:107px; margin-top: 25px" >
-
-                        <a asp-area="" asp-controller="Documentos" asp-action="Index"><img style="width:30px" src="/img/casa-icono-silueta.png" ></a> 
-                        <a style="margin-left: 40px; color:white; text-decoration: none" asp-controller="Ordenes" asp-action="Index">Ordenes de Compra </a>
-                        <a style="margin-left: 15px; color:white; text-decoration: none" asp-controller="Proveedores" asp-action="Index">Proveedores</a> 
-                        <a style="margin-left: 15px; color:white; text-decoration: none" asp-controller="Documentos" asp-action="Index">Documentos</a> 
-                       <a style="" asp-controller="Usuarios" asp-action="Login"><img style="width:30px; margin-left:200px; margin-bottom:7px" src="/img/usuario.png"></a>
-
-                    </div>  
+            <div class="">
+                <div class="navegacion">
+                    <a asp-area="" asp-controller="Documentos" asp-action="Index"><img src="~/img/Logo Nexos.png" class="logo"></a>
                 </div>
             </div>
         </nav>
@@ -40,7 +29,6 @@
             @RenderBody()
         </main>
     </div>
-
 
     <footer class=" text-center fixed-bottom">
         <!-- Copyright -->

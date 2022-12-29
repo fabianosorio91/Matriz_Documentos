@@ -23,6 +23,13 @@ namespace Dominio
 
         public string DocRuta { get; set; }
         public string AreValor { get; set; }
+        /// añadidura nueva
+        /// 
 
+        public string DocExtension { get; set; }
+        public string DocUsuCrea { get; set; }
+        //feature: lista parametros, lista areas 
+
+        public List<SelectListItem> ListaExtenciones { get; set; }
     }
 }

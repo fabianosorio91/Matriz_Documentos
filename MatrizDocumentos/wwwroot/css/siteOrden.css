@@ -404,3 +404,28 @@ form div i {
     font-size: 14.5px;
     margin-top: 5px;
 }
+
+/*Botones*/
+
+
+.container-boton{
+
+    display: flex;
+}
+    .container-boton .buscador-ordenes{
+        width: 70px;
+    }
+
+.container-boton-nueva-Orden{
+    display:block;
+    width:100%;
+    justify-content:center;
+}
+.boton-nueva-Orden{
+    margin:0 auto;
+}
+
+
+.boton-orden-compra{
+    background-color:red;
+}

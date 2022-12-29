@@ -1,4 +1,5 @@
 ﻿using Aplicacion.Servicios;
+using Aspose.Cells;
 using Dominio;
 using Infraestructura.Datos.Repositorios;
 using MatrizDocumentos.Controllers;
@@ -6,11 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Syncfusion.XlsIO;
 using static Infraestructura.Datos.Repositorios.Alerta.Enum;
+using System.Web;
+using System.Web.Mvc.Async;
+using OfficeOpenXml.Sorting;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.CodeAnalysis.VisualBasic;
 
 namespace OrdendeCompra.Controllers.Ordenes
 {
     public class OrdenesController : BaseController
     {
+
+
         private readonly IConfiguration configuration;
 
         public OrdenesController(IConfiguration configuration)
@@ -39,52 +47,24 @@ namespace OrdendeCompra.Controllers.Ordenes
             return servicioQueryOrden;
         }
 
-         // POST: Proveedores/Create
-        [HttpPost]
-        public async Task<IActionResult> CrearProveedor(IndexViewModel indexViewModel)
-
+        ProductosServicio ServicioProducto()
         {
-            //try
-            //{
-            //    IndexViewModel indexVM = new IndexViewModel();
-            //    await ServicioProveedor().CreateAsync(proveedor);
-            //    indexVM.DatosProveedor = await ObtenerProveedores();              
-            //    indexVM.Proveedor = proveedor;
+            ProductosRepositorio repo = new ProductosRepositorio(configuration);
+            ProductosServicio productosServicio = new ProductosServicio(repo);
 
-            //    indexVM.ProveedorList = await ServicioProveedor().ListarProveedor();
-            //  
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    var message = ex.Message;
-            //    throw;
-            //}
-
-            return null;
-                
-                }
-
-        //vista
-        public async Task<IActionResult> Index(IndexViewModel indexViewModel)
-        {
-
-            indexViewModel.DatosProveedor = await ObtenerProveedores();
-
-            if (indexViewModel.Proveedor is not null)
-
-            {
-                //indexViewModel.ProveedorList = await ServicioProveedor().Buscar(indexViewModel.Proveedor);
-            }
-            else
-            {
-                indexViewModel.ProveedorList = await ServicioProveedor().ListarProveedor();
-            }
-
-            return View(indexViewModel);
+            return productosServicio;
         }
 
-        //GET: Ordenes
+
+        ParametrosServicio ServicioParametro()
+        {
+            ParametrosRepositorio repo = new(configuration);
+            ParametrosServicio servicio = new(repo);
+            return servicio;
+        }
+
+
+
         public async Task<DatosProveedor> ObtenerProveedores()
         {
             var Provedors = await ServicioProveedor().ListarProveedor();
@@ -99,6 +79,7 @@ namespace OrdendeCompra.Controllers.Ordenes
             DatosProveedor provedores = new();
             {
                 provedores.Proveedors = lstProvedors;
+                
             }
             return provedores;
         }
@@ -159,7 +140,18 @@ namespace OrdendeCompra.Controllers.Ordenes
             }
             else
             {
-                var orden = await ServicioOrden().ListarOrden(data);
+                // Validacion para Cuando sea un update  y no un insert
+                //
+                if (data.id_ordencompra != 0)
+                {
+                    var orden = await ServicioOrden().ActualizarOrdenCompra(data);
+                }
+                else
+                {
+                    var orden = await ServicioOrden().ListarOrden(data);
+                }
+
+
             }
 
             ExcelEngine excelEngine = new ExcelEngine();
@@ -262,12 +254,85 @@ namespace OrdendeCompra.Controllers.Ordenes
             fileStreamResult.FileDownloadName = NombreOrden + ".xlsx";
 
             return fileStreamResult;
-
+            
             #endregion
         }
 
 
+    
+        // Controladores para la CRUD
 
+        public async Task<IActionResult> ListarOrdenes(IndexViewModel indexViewModel)
+        {
+            indexViewModel.OrdenCompraList = await ServicioOrden().Listar();
+
+
+
+
+            return View(indexViewModel);
+        }
+
+
+      
+        public async Task<IActionResult> Index(int id_ordencompra)
+        {
+            ///Lista para obtener las monedas
+            var Extenciones = await ServicioParametro().BuscarParametro("Moneda");
+            List<SelectListItem> listaParametros = new();
+           
+            foreach (var parametro in Extenciones)
+            {
+                listaParametros.Add(new SelectListItem { Value = parametro.VALORPARAMETRO, Text = parametro.VALORPARAMETRO });
+            }
+            ////////////////
+            IndexViewModel objetoOrden = new IndexViewModel()
+            {
+                OrdenCompra = new OrdenCompra() { ListaMoneda = listaParametros }
+            };
+
+            objetoOrden.DatosProveedor = await ObtenerProveedores();
+            
+
+
+            if (objetoOrden.Proveedor is not null)
+
+            {
+                //indexViewModel.ProveedorList = await ServicioProveedor().Buscar(indexViewModel.Proveedor);
+            }
+            else
+            {
+                objetoOrden.ProveedorList = await ServicioProveedor().ListarProveedor();
+              
+
+            }
+
+
+            /// agregacion  para el update de la orden
+            if (id_ordencompra != 0)
+            {
+                objetoOrden.OrdenCompra = await ServicioOrden().BuscarOrdenCompra(id_ordencompra); // traer la orden de compra
+                long idProveedor = objetoOrden.OrdenCompra.id_proveedor; // Id para traer a los provedor correspondientes a la orden
+                objetoOrden.OrdenCompra.tabla = await ServicioProducto().BuscarProductosDeOrden(id_ordencompra); // Un elemento orden de compra que contiene los productos
+                objetoOrden.DatosProveedor = await ObtenerProveedores(); // obtener la lista desplegable de provedores
+                objetoOrden.Proveedor = await ServicioProveedor().BuscarProvedorIdProveedor(idProveedor); // obtener a los provedores que corresponden a la orden
+                objetoOrden.OrdenCompra.ListaMoneda = listaParametros;
+            }
+
+            return View(objetoOrden);
+
+        }
+
+       
+        // recibe el Id de la orden para posteriormente eliminarlo 
+        public async Task<IActionResult> Eliminar(int id_ordencompra)
+        {
+            await ServicioOrden().Eliminar(id_ordencompra);
+
+            return RedirectToAction("ListarOrdenes", "Ordenes");
+        }
+
+
+      
 
     }
 }

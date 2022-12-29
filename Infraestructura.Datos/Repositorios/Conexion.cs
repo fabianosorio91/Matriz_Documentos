@@ -11,9 +11,6 @@ namespace Infraestructura.Datos.Repositorios
             connectionString = iconfiguration.GetConnectionString("CadenaSQL");
         }
 
-        public string GetConnectionString()
-        { 
-            return connectionString; 
-        }
+        public string GetConnectionString() { return connectionString; }
     }
 }

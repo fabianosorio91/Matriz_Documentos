@@ -1,12 +1,13 @@
 ﻿@using Dominio;
 @using Newtonsoft.Json;
 @using Syncfusion.XlsIO;
-@model IndexViewModel //de donde estoy esperando
+@model IndexViewModel
 @{
     ViewData["Title"] = "ListaUsuario";
-    Layout = "~/Views/Shared/_Layout.cshtml";    
-   
+    Layout = "~/Views/Shared/_LayoutOrden.cshtml";
 }
+
+
 
 <!DOCTYPE html>
 <html>
@@ -22,29 +23,28 @@
           integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm"
           crossorigin="anonymous" />
 
-    <h3><strong><div align="center"> ORDEN DE COMPRA</div></strong></h3>
+    <h2><div align="center"> ORDEN DE COMPRA</div></h2>
     <br>
-
+    
     <div class="content">
         <form id="form">
             <div class="accordion">DATOS GENERALES</div>
             <div class="panel">
-                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content 
-                    ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" 
-                    role="tabpanel" aria-hidden="false" style="">
+                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="">
 
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="username">Fecha Solicitud</label>
-                                <input class="form-control" type="date" id="fechasolicitud" name="fechasolicitud">
+                                <input class="form-control" type="date" id="fechasolicitud" value="@DateTime.Today.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")" name="fechasolicitud" asp-for="OrdenCompra.fechasolicitud">
+                          
                                 <div class="error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Solicitante">Solicitante</label>
-                                <input type="text" id="Solicitante" name="Solicitante">
+                                <input type="text" id="Solicitante" name="Solicitante" asp-for="OrdenCompra.Solicitante">
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -53,8 +53,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="codigodelproyecto">Código del proyecto</label>
-                                <input onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" 
-                                    type="text" id="codigodelproyecto" name="codigodelproyecto">
+                                <input onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;" type="text" id="codigodelproyecto" name="codigodelproyecto" asp-for="OrdenCompra.codigodelproyecto">
                                 <div class="error"></div>
                             </div>
 
@@ -62,8 +61,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Codigo Presupuesto</label>
-                                <input class="form-control" type="text" id="codigopresupuestos" 
-                                name="codigopresupuestos">
+                                <input class="form-control" type="text" id="codigopresupuestos" name="codigopresupuestos" asp-for="OrdenCompra.codigopresupuestos">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <!--Input oculto con la informacion de el id de la orden-->
+                                <input class="form-control" hidden type="txt" asp-for="OrdenCompra.id_ordencompra" name="idOrdendecompra" id="idOrdendecompra" readonly>
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -73,15 +78,63 @@
 
             <br>
 
-            <!--Vista parcial-->
-            <div id="parcialDatosProv">  <partial name="_datosProveedor" />    </div>
+            <div class="accordion">DATOS DEL PROVEEDOR</div>
+            <div class="panel">
+                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <select class="form-control" id="ValNit" onchange="selectNit(@(JsonConvert.SerializeObject(Model)))" asp-items="Model.DatosProveedor.Proveedors" asp-for="OrdenCompra.id_proveedor">
+                                    <option disabled selected>Seleccione</option>
+                                </select>
+
+                            </div>
+                        </div>
+                      
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Nit</label>
+                                <input class="form-control" type="hidden" id="id_proveedor" name="id_proveedor" asp-for="Proveedor.ID_PROVEEDOR">
+                                <input class="form-control" type="text" id="nit" name="nit" asp-for="Proveedor.NIT">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Contacto</label>
+                                <input class="form-control" type="text" id="contacto" name="contacto" asp-for="Proveedor.CONTACTO">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Email</label>
+                                <input class="form-control" type="text" id="email" name="email" asp-for="Proveedor.EMAIL">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label class="control-label">Teléfono</label>
+                                <input class="form-control" type="text" id="telefono" name="telefono" asp-for="Proveedor.TELEFONO">
+                                <div class="error"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <br>
 
             <div class="accordion">CARACTERISTICAS COMERCIALES</div>
-            <div class="panel">
-                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false" style="">
-
+            <div class="panel" style="max-height:max-content">
+                <div class="card-body ui-accordion-content ui-corner-bottom ui-helper-reset ui-widget-content ui-accordion-content-active" id="ui-id-2" aria-labelledby="ui-id-1" role="tabpanel" aria-hidden="false">
+                   
                     <table id="tabla" style="text-align:center;">
                         <tr class="cabeza">
                             <td class="orden">&nbsp;</td>
@@ -90,14 +143,30 @@
                             <td class="tam"><h7 style="color: white ;">Valor unitario (Antes de IVA)</h7></td>
                             <td class="tam"><h7 style="color: white ;">Total(Antes de IVA)</h7></td>
                         </tr>
+                        @if (Model.OrdenCompra.id_ordencompra != 0)
+                        {
+                            @foreach (var item in Model.OrdenCompra.tabla)
+                            {
+                                <tr>
+                                    <td class="orden1">&nbsp;<img src="img/anadir.gif" alt="añadir fila"  />&nbsp;<img src="img/menos.gif" alt="borrar fila" /></td>
+                                    <td>@item.descripcion</td>
+                                    <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">@item.cantidad</td>
+                                    <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;">@item.valorunitario</td>
+                                    <td></td>
+                                </tr>
+                            }
+                           
+                        }else{
                         <tr>
-                            <td class="orden1">&nbsp;<img src="img/anadir.gif" alt="añadir fila" />&nbsp;<img src="img/menos.gif" alt="borrar fila" /></td>
+                            <td class="orden1">&nbsp;<img src="img/anadir.gif" alt="añadir fila"/>&nbsp;<img src="img/menos.gif" alt="borrar fila" /></td>
                             <td></td>
                             <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"></td>
                             <td onKeypress="if (event.keyCode < 45 || event.keyCode > 57) event.returnValue = false;"></td>
                             <td></td>
                         </tr>
+                        }
                         <tr>
+                               
                             <td class="orden1">&nbsp;</td>
                             <td class="orden1">TOTAL:</td>
                             <td></td>
@@ -105,23 +174,31 @@
                             <td></td>
                         </tr>
                     </table>
+                   
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Moneda</label>
+                                <select class="form-control" id="Moneda" asp-items="Model.OrdenCompra.ListaMoneda" asp-for="OrdenCompra.Moneda">
+                                </select>
 
-                    <br>
-                    <br>
-                    <br>
-
+                            </div>
+                        </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Garantía</label>
-                                <textarea class="form-control" type="text" id="garantia" name="garantia" cols="50" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="garantia" name="garantia" cols="50" rows="5" asp-for="OrdenCompra.garantia"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Acuerdos de pago</label>
-                                <textarea class="form-control" type="text" id="acuerdosdepago" name="acuerdosdepago" cols="50" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="acuerdosdepago" name="acuerdosdepago" cols="50" rows="5" asp-for="OrdenCompra.acuerdosdepago"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -133,14 +210,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Acuerdos de incumplimiento</label>
-                                <textarea class="form-control" type="text" id="incumplimiento" name="incumplimiento" cols="40" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="incumplimiento" name="incumplimiento" cols="40" rows="5" asp-for="OrdenCompra.incumplimiento"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="OrdRazonSocial">Acuerdos de entregas</label>
-                                <textarea class="form-control" type="text" id="entregas" name="entregas" cols="40" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="entregas" name="entregas" cols="40" rows="5" asp-for="OrdenCompra.entregas"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -151,14 +228,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label">Acuerdos de Seguimiento</label>
-                                <textarea class="form-control" type="text" id="seguimiento" name="seguimiento" cols="40" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="seguimiento" name="seguimiento" cols="40" rows="5" asp-for="OrdenCompra.seguimiento"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="control-label" for="OrdRazonSocial">Soporte postventa</label>
-                                <textarea class="form-control" type="text" id="soporteposventa" name="soporteposventa" cols="40" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="soporteposventa" name="soporteposventa" cols="40" rows="5" asp-for="OrdenCompra.soporteposventa"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -166,7 +243,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="control-label" for="OrdRazonSocial">Otros</label>
-                                <textarea class="form-control" type="text" id="otros" name="otros" cols="40" rows="5"></textarea>
+                                <textarea class="form-control" type="text" id="otros" name="otros" cols="40" rows="5" asp-for="OrdenCompra.otros"></textarea>
                                 <div class="error"></div>
                             </div>
                         </div>
@@ -174,32 +251,36 @@
 
                 </div>
 
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
 
-                <br>
+
+                    <div class="row">
+
+                                @if (Model.OrdenCompra.id_ordencompra != 0)
+                                {
+
+
+                            <input name="submit" type="submit" id="btnExportToExcel" class="temporalprueba " value="Actualizar" onclick="enviar()" />
+                                }
+                                else
+                                {
+                            <input name="submit" type="submit" id="btnExportToExcel" class="temporalprueba " value="Guardar" onclick="enviar()" />
+
+                                }
+
+                        <input name="submit" hidden type="button" id="ExportToExcel" value="Create" onclick="location.href='@Url.Action("ObtenerOrden", "Ordenes")'" />
+                    </div>
             </div>
 
-            <br>
+          
 
-
-            <div class="row">
-                <input name="submit" type="submit" id="btnExportToExcel" value="Guardar" onclick="enviar()" />
-                <input name="submit" hidden type="button" id="ExportToExcel" value="Create" onclick="location.href='@Url.Action("ObtenerOrden", "Ordenes")'" />
-            </div>
         </form>
 
     </div>
+    <a class="btn btn-dark btn-sm" asp-action="ListarOrdenes" asp-controller="Ordenes">Volver</a>
     <br>
     <br>
+
+
 
     <script>
         var acc = document.getElementsByClassName("accordion");
@@ -237,7 +318,13 @@
         });
     </script>
 
-
+  @section Scripts {  <script> 
+        $(document).ready(function () {
+                $('#ValNit').select2();
+        });
+        
+    </script>
+  }
 </body>
 </html>
 

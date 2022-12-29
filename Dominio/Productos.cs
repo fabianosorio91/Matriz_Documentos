@@ -13,5 +13,7 @@ namespace Dominio
         public long valorunitario { get; set; }
         public long totalantesiva { get; set; }
         public long total { get; set; }
+
+
     }
 }

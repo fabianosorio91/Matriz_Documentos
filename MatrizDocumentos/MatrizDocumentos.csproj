@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>b91c2e52-1709-4c24-b391-60b63988e466</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -58,7 +57,6 @@
     <PackageReference Include="EPPlus" Version="6.1.0" />
     <PackageReference Include="Grpc.Core" Version="2.46.5" />
     <PackageReference Include="jQuery.Dynamiclist.Kendo" Version="2.1.8" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
